@@ -52,26 +52,37 @@ public class MainActivity extends AppCompatActivity {
         dragItemListener = new DragListView1.SimpleAnimationDragItemListener() {
             @Override
             public boolean canExchange(int srcPosition, int position) {
+
                 Log.e("canExchange", srcPosition + "================" + position);
                 ListItemNormal listItemNormal = listItemNormals.get(srcPosition);
-                List<ListItemNormal> temList = new ArrayList<>();
-                int index = 0;
-                for (int i = 0; i < listItemNormals.size(); i++) {
-                    if (i == position) {
-                        temList.add(listItemNormal);
-                    } else {
-                        if (i == srcPosition) {
-                            ++index;
-                        }
-                        temList.add(listItemNormals.get(index++));
-                    }
+                if(position == srcPosition)
+                {
+                    return false;
                 }
-                listItemNormals = temList;
-
-                Log.e("ListItemNormal", listItemNormals.toString());
-
+                if(Math.abs(position - srcPosition) == 1)
+                {
+                    listItemNormals.set(srcPosition,listItemNormals.get(position));
+                    listItemNormals.set(position,listItemNormal);
+                }
+                else if(srcPosition>position) {
+                    List<ListItemNormal> temList = listItemNormals.subList(position, srcPosition - 1);
+                    listItemNormals.set(position,listItemNormal);
+                    for (int i = position+1; i <= srcPosition; i++) {
+                        listItemNormals.set(i,temList.remove(0));
+                    }
+                    listItemNormals = temList;
+                }
+                else if(srcPosition < position) {
+                    List<ListItemNormal> temList = listItemNormals.subList(srcPosition + 1, position);
+                    for (int i = srcPosition; i < position; i++) {
+                        listItemNormals.set(i, temList.remove(0));
+                    }
+                    listItemNormals.set(position, listItemNormal);
+                    listItemNormals = temList;
+                }
                 return true;
             }
+
 
             @Override
             public void startDrag(int position, View itemView) {
@@ -82,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onExchange(int srcPosition, int position, View srcItemView, View itemView) {
                 super.onExchange(srcPosition, position, srcItemView, itemView);
+                adapter.notifyDataSetChanged();
 
             }
 
