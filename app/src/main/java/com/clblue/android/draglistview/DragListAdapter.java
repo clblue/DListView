@@ -52,7 +52,9 @@ public class DragListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.drag_list_item,null);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.drag_list_item_text);
+            holder.tv2 = (TextView) convertView.findViewById(R.id.drag_list_item_text2);
             holder.ckb = (CheckBox) convertView.findViewById(R.id.check_item);
+
             convertView.setTag(holder);
         }
         else
@@ -62,6 +64,7 @@ public class DragListAdapter extends BaseAdapter {
 
         ListItemNormal listItemNormal = listItemNormals.get(position);
         holder.tv.setText(listItemNormal.getValue());
+        holder.tv2.setText(listItemNormal.getDst());
 //        holder.ckb
 
         return convertView;
@@ -71,5 +74,6 @@ public class DragListAdapter extends BaseAdapter {
     {
         TextView tv;
         CheckBox ckb;
+        TextView tv2;
     }
 }

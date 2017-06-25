@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -147,11 +146,6 @@ public class DragListView1 extends ListView {
         return super.dispatchTouchEvent(ev);
     }
 
-    @Nullable
-    private Boolean listDragAction(MotionEvent ev) {
-
-        return null;
-    }
 
     private float mMoveY;
 

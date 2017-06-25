@@ -1,6 +1,7 @@
 package com.clblue.android.draglistview;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,21 +32,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        listItemNormals.add(new ListItemNormal("1"));
-        listItemNormals.add(new ListItemNormal("2"));
-        listItemNormals.add(new ListItemNormal("3"));
-        listItemNormals.add(new ListItemNormal("4"));
-        listItemNormals.add(new ListItemNormal("5"));
-        listItemNormals.add(new ListItemNormal("6"));
-        listItemNormals.add(new ListItemNormal("7"));
-        listItemNormals.add(new ListItemNormal("8"));
-        listItemNormals.add(new ListItemNormal("9"));
-        listItemNormals.add(new ListItemNormal("10"));
-        listItemNormals.add(new ListItemNormal("11"));
-        listItemNormals.add(new ListItemNormal("12"));
-        listItemNormals.add(new ListItemNormal("13"));
-        listItemNormals.add(new ListItemNormal("14"));
-        listItemNormals.add(new ListItemNormal("15"));
+        listItemNormals.add(new ListItemNormal("1","a"));
+        listItemNormals.add(new ListItemNormal("2","b"));
+        listItemNormals.add(new ListItemNormal("3","c"));
+        listItemNormals.add(new ListItemNormal("4","d"));
+        listItemNormals.add(new ListItemNormal("5","e"));
+        listItemNormals.add(new ListItemNormal("6","f"));
+        listItemNormals.add(new ListItemNormal("7","g"));
+        listItemNormals.add(new ListItemNormal("8","h"));
+        listItemNormals.add(new ListItemNormal("9","i"));
+        listItemNormals.add(new ListItemNormal("10","j"));
+        listItemNormals.add(new ListItemNormal("11","k"));
+        listItemNormals.add(new ListItemNormal("12","l"));
+        listItemNormals.add(new ListItemNormal("13","m"));
+        listItemNormals.add(new ListItemNormal("14","n"));
+        listItemNormals.add(new ListItemNormal("15","o"));
     }
 
     private void initView() {
@@ -61,21 +62,29 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(Math.abs(position - srcPosition) == 1)
                 {
-                    listItemNormals.set(srcPosition,listItemNormals.get(position));
+                    ListItemNormal dst = listItemNormals.get(position);
+                    dst.setValue(String.valueOf(srcPosition+1));
+                    listItemNormal.setValue(String.valueOf(position+1));
+                    listItemNormals.set(srcPosition,dst);
                     listItemNormals.set(position,listItemNormal);
+
                 }
                 else if(srcPosition>position) {
                     List<ListItemNormal> temList = listItemNormals.subList(position, srcPosition - 1);
                     listItemNormals.set(position,listItemNormal);
                     for (int i = position+1; i <= srcPosition; i++) {
-                        listItemNormals.set(i,temList.remove(0));
+                        ListItemNormal temp = temList.remove(0);
+                        temp.setValue(String.valueOf(i+1));
+                        listItemNormals.set(i,temp);
                     }
                     listItemNormals = temList;
                 }
                 else if(srcPosition < position) {
                     List<ListItemNormal> temList = listItemNormals.subList(srcPosition + 1, position);
                     for (int i = srcPosition; i < position; i++) {
-                        listItemNormals.set(i, temList.remove(0));
+                        ListItemNormal temp = temList.remove(0);
+                        temp.setValue(String.valueOf(i+1));
+                        listItemNormals.set(i, temp);
                     }
                     listItemNormals.set(position, listItemNormal);
                     listItemNormals = temList;
@@ -99,16 +108,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean canDrag(View itemView, int x, int y) {
-                return true;
+                int width = itemView.getWidth();
+                return x>width/2;
             }
 
             @Override
             public void beforeDrawingCache(View itemView) {
-
+                itemView.setBackgroundColor(Color.BLUE);
             }
 
             @Override
             public Bitmap afterDrawingCache(View itemView, Bitmap bitmap) {
+                itemView.setBackgroundColor(Color.TRANSPARENT);
+
                 return null;
             }
         };
